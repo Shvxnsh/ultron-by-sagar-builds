@@ -1,0 +1,39 @@
+
+/* ——— Voice assistant panel ——— */
+.voice-panel {
+  display: none;
+  width: min(320px, 80vw);
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 170, 48, 0.45);
+  border-radius: 4px;
+  background: rgba(20, 10, 0, 0.55);
+  box-shadow: 0 0 16px rgba(255, 140, 20, 0.15);
+}
+
+.voice-panel.visible {
+  display: block;
+}
+
+.voice-status,
+.voice-transcript {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-shadow: 0 0 6px rgba(255, 170, 48, 0.7);
+}
+
+.voice-status {
+  color: #ffcc66;
+}
+
+.voice-transcript {
+  margin-top: 4px;
+  color: rgba(255, 204, 102, 0.7);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orb-awake canvas {
+  filter: drop-shadow(0 0 18px rgba(255, 190, 70, 0.55));
+}
