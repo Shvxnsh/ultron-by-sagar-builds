@@ -1,221 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
 
-:root {
-  color-scheme: dark;
-  background: #030201;
-  font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  overflow: hidden;
-  background: #030201;
-}
-
-body {
-  min-height: 100svh;
-}
-
-button {
-  font: inherit;
-}
-
-.orb-root {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100svh;
-  min-height: 320px;
-  overflow: hidden;
-  background: radial-gradient(circle at center, #1c0d02 0%, #090401 38%, #030201 75%);
-}
-
-.orb-root canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.overlay-vignette,
-.overlay-grain,
-.overlay-scanlines {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.overlay-vignette {
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.72) 100%);
-}
-
-.overlay-grain {
-  opacity: 0.08;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
-}
-
-.overlay-scanlines {
-  opacity: 0.08;
-  background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(255, 170, 48, 0.22) 4px);
-}
-
-.hud {
-  position: fixed;
-  z-index: 3;
-  color: #ffb84d;
-  text-shadow: 0 0 8px rgba(255, 170, 48, 0.75);
-  user-select: none;
-  pointer-events: none;
-}
-
-.hud-title {
-  top: 24px;
-  left: 28px;
-  font-size: clamp(16px, 2vw, 24px);
-  letter-spacing: 0.28em;
-}
-
-.hud-hint {
-  top: 28px;
-  right: 28px;
+.hud-center-status {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: rgba(255, 204, 102, 0.72);
-  font-size: 11px;
-  line-height: 2;
-  text-align: right;
-}
-
-.key {
-  padding: 2px 5px;
-  border: 1px solid rgba(255, 170, 48, 0.5);
-  color: #ffcc66;
-}
-
-.hud-controls {
-  right: 28px;
-  bottom: 24px;
-  display: flex;
-  width: min(340px, calc(100vw - 56px));
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.hud-row {
-  display: flex;
-  gap: 8px;
-}
-
-.hud-btn {
-  min-width: 42px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 170, 48, 0.55);
-  border-radius: 3px;
-  color: #ffcc66;
-  background: rgba(20, 10, 0, 0.72);
-  cursor: pointer;
-  text-shadow: inherit;
-  transition: background 160ms ease, box-shadow 160ms ease;
-}
-
-.hud-btn:hover,
-.hud-btn:focus-visible {
-  outline: none;
-  background: rgba(125, 55, 0, 0.65);
-  box-shadow: 0 0 14px rgba(255, 170, 48, 0.35);
-}
-
-.camera-panel {
-  display: none;
-  position: relative;
-  width: 208px;
-  height: 156px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 170, 48, 0.45);
-  background: #090401;
-}
-
-.camera-panel.visible {
-  display: block;
-}
-
-.camera-video,
-.camera-overlay {
-  position: absolute;
-  inset: 0;
-  width: 208px;
-  height: 156px;
-  object-fit: cover;
-}
-
-.camera-video {
-  transform: scaleX(-1);
-  opacity: 0.7;
-}
-
-.camera-overlay {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  opacity: 0.8;
   pointer-events: none;
 }
 
-.hud-error {
-  max-width: 340px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 80, 40, 0.7);
-  color: #ff8060;
-  background: rgba(45, 5, 0, 0.75);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-align: right;
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border: 1px solid #ff9b30;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff9b30;
 }
 
-/* Voice assistant panel */
-.voice-panel {
-  display: none;
-  width: min(320px, 80vw);
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 170, 48, 0.45);
-  border-radius: 4px;
-  background: rgba(20, 10, 0, 0.55);
-  box-shadow: 0 0 16px rgba(255, 140, 20, 0.15);
+.status-dot.online {
+  background: #ffb84d;
 }
 
-.voice-panel.visible {
-  display: block;
-}
-
-.voice-status,
-.voice-transcript {
+.hud-readout {
+  color: rgba(255, 204, 102, 0.76);
   font-size: 10px;
   letter-spacing: 0.1em;
-  line-height: 1.5;
-  text-shadow: 0 0 6px rgba(255, 170, 48, 0.7);
 }
 
-.voice-status {
+.camera-label {
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  z-index: 1;
   color: #ffcc66;
-}
-
-.voice-transcript {
-  margin-top: 4px;
-  color: rgba(255, 204, 102, 0.7);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.orb-awake canvas {
-  filter: drop-shadow(0 0 18px rgba(255, 190, 70, 0.55));
-}
-
-@media (max-width: 600px) {
-  .hud-title { top: 16px; left: 16px; }
-  .hud-hint { top: 58px; right: 16px; }
-  .hud-controls { right: 16px; bottom: 16px; width: calc(100vw - 32px); }
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 5px #000;
 }
